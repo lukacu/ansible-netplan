@@ -1,0 +1,9 @@
+
+- name: Generate netplan config
+  template:
+    src: netplan.yml.j2
+    dest: /etc/netplan/01-netcfg.yaml
+    mode: 0644
+  notify:
+    - Apply netplan configuration
+

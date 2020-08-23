@@ -1,0 +1,4 @@
+---
+- name: Apply netplan configuration
+  shell: netplan apply
+  ignore_errors: no

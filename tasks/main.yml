@@ -1,0 +1,11 @@
+---
+
+- name: Check if netplan is present
+  shell: netplan -h >/dev/null 2>&1
+  register: netplan_present
+  ignore_errors: yes
+
+- name: Configure netplan
+  include: netplan.yml
+  when: netplan_present is succeeded
+

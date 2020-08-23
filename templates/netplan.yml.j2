@@ -1,0 +1,24 @@
+# Generated with ansible
+network:
+  version: 2
+  renderer: {{ netplan_renderer }}
+  ethernets:
+{% for ifn, ifv in network_interfaces.items() %}
+    {{ ifn }}:
+{% if 'addresses' in ifv %}
+      addresses: [ {% for ad in ifv['addresses'] %}"{{ ad }}"{{ ", " if not loop.last else " " }}{% endfor %} ]
+{% if 'gateway4' in ifv %}
+      gateway4: "{{ ifv['gateway4'] }}"
+{% endif %}
+{% if 'gateway6' in ifv %}
+      gateway6: "{{ ifv['gateway6'] }}"
+{% endif %}
+{% if 'nameservers' in ifv %}
+      nameservers:
+        addresses: [ {% for ns in ifv['nameservers'] %}"{{ ns }}"{{ ", " if not loop.last else " " }}{% endfor %} ]
+{% endif %}
+      dhcp4: no
+{% else %}
+      dhcp4: yes
+{% endif %}
+{% endfor %}
